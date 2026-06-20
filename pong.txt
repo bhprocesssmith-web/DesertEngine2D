@@ -1,0 +1,19 @@
+ball_dir_x = 1
+ball_dir_y = 1
+
+
+
+if ball.x <= 0;
+	ball.x = 600
+	ball_dir_x *= -1
+else ball.x >= 1280;
+	ball.x = 600
+	ball_dir_x *= -1
+
+if ball.y <= 0;
+	ball_dir_y *= -1
+else ball.y >= 720 - 15;
+	ball_dir_y *= -1
+
+ball.x += ball_dir_x
+ball.y += ball_dir_y

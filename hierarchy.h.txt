@@ -1,5 +1,6 @@
 #pragma once
 #include "imgui.h"
+#include <nfd.h>
 
 inline void hierarchywindow()
 {
@@ -10,7 +11,8 @@ inline void hierarchywindow()
         //ImGuiWindowFlags_NoInputs;
     ImGui::Begin("hierarchy", nullptr, flags);
         
-
+        ImGui::Text("Scene");
+        
 
     ImGui::End();
 }

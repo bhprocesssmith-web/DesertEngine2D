@@ -14,6 +14,7 @@
 #include "inspector.h"
 #include "assets.h"
 #include "file.h"
+#include "editorscript.h"
 
 inline void screen() //Cria uma função chamada screen. inline permite colocar a função dentro do .h.
 {
@@ -80,6 +81,7 @@ inline void screen() //Cria uma função chamada screen. inline permite colocar 
         inspectorwindow();
         assetswindow();
         filewindow();
+        ScriptEditor();
 
         //Finaliza interface
         ImGui::Render(); //Transforma a interface em comandos de desenho.

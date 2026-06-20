@@ -16,17 +16,17 @@ inline void inspectorwindow()
             static float vz = 5.0f;
             ImGui::Text("Translation");
             ImGui::Dummy(ImVec2(0, 20));
-            ImGui::SetNextItemWidth(40);
+            ImGui::SetNextItemWidth(35);
             ImGui::SameLine();
             ImGui::SliderFloat(
                 "tX",&vx,0.0f,100.0f
             );
-            ImGui::SetNextItemWidth(40);
+            ImGui::SetNextItemWidth(35);
             ImGui::SameLine();
             ImGui::SliderFloat(
                 "tY", &vy, 0.0f, 100.0f
             );
-            ImGui::SetNextItemWidth(40);
+            ImGui::SetNextItemWidth(35);
             ImGui::SameLine();
             ImGui::SliderFloat(
                 "tZ", &vz, 0.0f, 100.0f
@@ -38,17 +38,17 @@ inline void inspectorwindow()
             static float rz = 5.0f;
             ImGui::Text("Ratation");
             ImGui::Dummy(ImVec2(0, 20));
-            ImGui::SetNextItemWidth(40);
+            ImGui::SetNextItemWidth(35);
             ImGui::SameLine();
             ImGui::SliderFloat(
                 "rX", &rx, 0.0f, 100.0f
             );
-            ImGui::SetNextItemWidth(40);
+            ImGui::SetNextItemWidth(35);
             ImGui::SameLine();
             ImGui::SliderFloat(
                 "rY", &ry, 0.0f, 100.0f
             );
-            ImGui::SetNextItemWidth(40);
+            ImGui::SetNextItemWidth(35);
             ImGui::SameLine();
             ImGui::SliderFloat(
                 "rZ", &rz, 0.0f, 100.0f
@@ -60,17 +60,17 @@ inline void inspectorwindow()
             static float sz = 5.0f;
             ImGui::Text("Scale");
             ImGui::Dummy(ImVec2(0, 20));
-            ImGui::SetNextItemWidth(40);
+            ImGui::SetNextItemWidth(35);
             ImGui::SameLine();
             ImGui::SliderFloat(
                 "sX", &sx, 0.0f, 100.0f
             );
-            ImGui::SetNextItemWidth(40);
+            ImGui::SetNextItemWidth(35);
             ImGui::SameLine();
             ImGui::SliderFloat(
                 "sY", &sy, 0.0f, 100.0f
             );
-            ImGui::SetNextItemWidth(40);
+            ImGui::SetNextItemWidth(35);
             ImGui::SameLine();
             ImGui::SliderFloat(
                 "sZ", &sz, 0.0f, 100.0f

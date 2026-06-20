@@ -4,6 +4,7 @@
 int main()
 {
     screen();
-    
+
     return 0;
+
 }

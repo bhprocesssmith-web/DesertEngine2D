@@ -1,0 +1,37 @@
+#pragma once
+#include "imgui.h"
+#include "assets.h"
+
+struct variavel {
+    bool abrirScriptEditor = false;
+};
+inline variavel openeditor;
+
+inline void ScriptEditor()
+{
+    static char script[16384] =
+        "// Meu Script\n"
+        "void Start()\n"
+        "{\n"
+        "}\n\n"
+        "void Update()\n"
+        "{\n"
+        "}\n";
+
+    ImGuiWindowFlags flags =
+        ImGuiWindowFlags_NoCollapse;
+
+    if (openeditor.abrirScriptEditor)
+    {
+        ImGui::Begin("Script Editor", nullptr, flags);
+
+        ImGui::InputTextMultiline(
+            "##script",
+            script,
+            sizeof(script),
+            ImVec2(-1, -1)
+        );
+
+        ImGui::End();
+    }
+}
