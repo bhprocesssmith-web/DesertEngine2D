@@ -1,0 +1,24 @@
+arquivos: //na pasta do projeto
+	nfd.h
+	nfd_win.cpp
+
+Configurar Includes
+
+Visual Studio:
+Projeto
+→ Propriedades
+→ C/C++
+→ Additional Include Directories
+
+Adicione:
+$(ProjectDir)\include
+
+Adicionar os arquivos fonte
+
+No Solution Explorer:
+Source Files
+→ Add
+→ Existing Item
+
+Adicione:
+nfd_win.cpp
