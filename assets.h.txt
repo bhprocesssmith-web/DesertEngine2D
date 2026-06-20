@@ -3,7 +3,7 @@
 #include "imgui.h"
 #include <iostream>
 
-inline void assetswindow()
+inline void assetswindow() //Cria uma função que desenha a janela Assets do ImGui.
 {
     ImGuiWindowFlags flags =
         ImGuiWindowFlags_NoResize |
@@ -12,21 +12,21 @@ inline void assetswindow()
         //ImGuiWindowFlags_NoInputs;
     ImGui::Begin("Assets", nullptr, flags);
 
-
+//Cria o botão
         if (ImGui::Button("Load")) {
-            nfdu8char_t* path = nullptr;
+            nfdu8char_t* path = nullptr; //Ponteiro para armazenar o caminho
 
-            nfdresult_t result =
+            nfdresult_t result = //Abre o seletor de pasta
                 NFD_PickFolderU8(
-                    &path,
-                    nullptr
+                    &path, //Endereço da variável.
+                    "C:\\" //Como é nullptr, o Windows escolhe uma pasta padrão. para abrir direto no disco C:.
                 );
 
-            if (result == NFD_OKAY)
+            if (result == NFD_OKAY) //Usuário clicou em OK
             {
-                printf("%s\n", path);
+                printf("%s\n", path); //Mostra o caminho
 
-                NFD_FreePathU8(path);
+                NFD_FreePathU8(path); //Libera memória
             }
         }
         
