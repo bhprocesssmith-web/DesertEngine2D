@@ -1,6 +1,7 @@
 #pragma once
 
 #include "imgui.h"
+#include <iostream>
 
 inline void assetswindow()
 {
@@ -12,12 +13,23 @@ inline void assetswindow()
     ImGui::Begin("Assets", nullptr, flags);
 
 
-    //ImGui::Text("Ola Mundo!");
+        if (ImGui::Button("Load")) {
+            nfdu8char_t* path = nullptr;
 
-    /*if (ImGui::Button("Clique"))
-    {
-        // ação
-    }*/
+            nfdresult_t result =
+                NFD_PickFolderU8(
+                    &path,
+                    nullptr
+                );
+
+            if (result == NFD_OKAY)
+            {
+                printf("%s\n", path);
+
+                NFD_FreePathU8(path);
+            }
+        }
+        
 
     ImGui::End();
 }
