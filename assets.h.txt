@@ -1,0 +1,23 @@
+#pragma once
+
+#include "imgui.h"
+
+inline void assetswindow()
+{
+    ImGuiWindowFlags flags =
+        ImGuiWindowFlags_NoResize |
+        ImGuiWindowFlags_NoMove |
+        ImGuiWindowFlags_NoCollapse;
+        //ImGuiWindowFlags_NoInputs;
+    ImGui::Begin("Assets", nullptr, flags);
+
+
+    //ImGui::Text("Ola Mundo!");
+
+    /*if (ImGui::Button("Clique"))
+    {
+        // ação
+    }*/
+
+    ImGui::End();
+}
