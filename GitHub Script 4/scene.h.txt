@@ -1,0 +1,70 @@
+#pragma once
+#include "imgui.h"
+#include "assets.h"
+#include "hierarchy.h"
+
+// Cena
+inline void scenetEditor(){
+
+    ImGuiWindowFlags flags =
+        ImGuiWindowFlags_NoResize |
+        ImGuiWindowFlags_NoMove |
+        ImGuiWindowFlags_NoScrollbar;
+
+    ImGui::Begin("Scene", nullptr, flags);
+
+    ImDrawList* draw = ImGui::GetWindowDrawList();
+
+    ImVec2 pos = ImGui::GetCursorScreenPos();
+
+    static int draggingObject = -1;
+
+    for (int i = 0; i < sceneObjects.size(); i++)
+    {
+        auto& obj = sceneObjects[i];
+
+        ImVec2 p1(pos.x + obj.x, pos.y + obj.y);
+        ImVec2 p2(pos.x + obj.x + 50, pos.y + obj.y + 50);
+
+        draw->AddRectFilled(
+            p1,
+            p2,
+            IM_COL32(255, 255, 255, 255)
+        );
+
+        ImVec2 mouse = ImGui::GetIO().MousePos;
+
+        bool hover =
+            mouse.x >= p1.x && mouse.x <= p2.x &&
+            mouse.y >= p1.y && mouse.y <= p2.y;
+
+        if (hover && ImGui::IsMouseClicked(ImGuiMouseButton_Left))
+        {
+            draggingObject = i;
+        }
+    }
+
+    if (draggingObject != -1)
+    {
+        auto& obj = sceneObjects[draggingObject];
+
+        if (ImGui::IsMouseDown(ImGuiMouseButton_Left))
+        {
+            ImVec2 mouse = ImGui::GetIO().MousePos;
+
+            obj.x = mouse.x - pos.x - 25;
+            obj.y = mouse.y - pos.y - 25;
+        }
+        else
+        {
+            draggingObject = -1;
+        }
+    }
+
+    ImGui::Dummy(ImVec2(800, 600));
+    //ImGui::Text("Scene");
+
+
+    ImGui::End();
+}
+
