@@ -1,0 +1,100 @@
+#pragma once
+
+#include "imgui.h" //interface gráfica.
+#include <nfd.h> //Native File Dialog (abrir explorador de arquivos).
+#include <SDL_image.h> //carregar imagens PNG, JPG, etc.
+#include <string> //usar std::string.
+#include <iostream> //imprimir no console.
+#include <vector>
+
+struct AssetImage
+{
+    std::string path;
+    SDL_Surface* surface;
+};
+
+static std::vector<AssetImage> assets;
+
+
+
+inline void assetswindow() //Cria uma função que desenha a janela Assets do ImGui.
+{
+    static std::string imagePath = "Nenhuma imagem carregada";
+
+    ImGuiWindowFlags flags =
+        ImGuiWindowFlags_NoResize |
+        ImGuiWindowFlags_NoMove |
+        ImGuiWindowFlags_NoCollapse;
+    //ImGuiWindowFlags_NoInputs;
+    ImGui::Begin("Assets", nullptr, flags);
+
+
+    //Cria o botão
+    if (ImGui::Button("Load")) {
+        nfdu8char_t* path = nullptr; //Ponteiro para armazenar o caminho
+
+        nfdu8filteritem_t filters[] =
+        {
+            { "Images", "png,jpg,jpeg,bmp,tga" } //Só mostra: png,jpg,jpeg,bmp,tga
+        };
+
+        nfdresult_t result = //Escolher Arquivo
+            NFD_OpenDialogU8( //Escolher Arquivo
+                &path, //Escolher Arquivo
+                filters, //Escolher Arquivo
+                1, //Escolher Arquivo
+                nullptr //Escolher Arquivo 
+            );
+
+        //nfdresult_t result = //Abre o seletor de pasta
+            //NFD_PickFolderU8(
+                //&path, //Endereço da variável.
+                //"C:\\Downloads" //Como é nullptr, o Windows escolhe uma pasta padrão. para abrir direto no disco C:.
+            //);
+        if (result == NFD_OKAY)
+        {
+            imagePath = path;
+
+            SDL_Surface* image = IMG_Load(path);
+
+            if (image)
+            {
+                assets.push_back({
+                    path,
+                    image
+                    });
+
+                std::cout << "Importada!" << std::endl;
+            }
+            else
+            {
+                std::cout
+                    << "Erro: "
+                    << IMG_GetError()
+                    << std::endl;
+            }
+
+            NFD_FreePathU8(path);
+
+            //if (result == NFD_OKAY) //Usuário clicou em OK
+            //{
+                //printf("%s\n", path); //Mostra o caminho
+
+                //NFD_FreePathU8(path); //Libera memória
+        }
+    }
+
+    ImGui::Separator();
+    ImGui::Text("Assets importados:");
+
+    for (const auto& asset : assets)
+    {
+        ImGui::Text("%s", asset.path.c_str());
+    }
+
+    ImGui::Separator();
+    ImGui::Text("Arquivo:");
+    ImGui::TextWrapped("%s", imagePath.c_str());
+
+    ImGui::End();
+}

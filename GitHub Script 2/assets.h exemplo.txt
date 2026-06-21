@@ -1,0 +1,76 @@
+#pragma once
+#include "imgui.h" //interface gráfica.
+#include <nfd.h> //Native File Dialog (abrir explorador de arquivos).
+#include <SDL_image.h> //carregar imagens PNG, JPG, etc.
+#include <string> //usar std::string.
+#include <iostream> //imprimir no console.
+
+inline void assetswindow()
+{
+    static std::string imagePath = "Nenhuma imagem carregada"; //static faz a variável manter o valor entre os frames do ImGui.
+								//Sem static, ela voltaria para: "Nenhuma imagem carregada"
+
+
+//Impede:
+    ImGuiWindowFlags flags =
+        ImGuiWindowFlags_NoResize | //Impede: redimensionar
+        ImGuiWindowFlags_NoMove | //Impede: mover
+        ImGuiWindowFlags_NoCollapse; //Impede: escolher
+
+    ImGui::Begin("Assets", nullptr, flags);
+
+    if (ImGui::Button("Load")) //Quando clicar: o código dentro do if executa.
+    {
+        nfdu8char_t* path = nullptr;
+
+        nfdu8filteritem_t filters[] =
+        {
+            { "Images", "png,jpg,jpeg,bmp,tga" } //Só mostra: png,jpg,jpeg,bmp,tga
+        };
+
+        nfdresult_t result = //Escolher Arquivo
+            NFD_OpenDialogU8( //Escolher Arquivo
+                &path, //Escolher Arquivo
+                filters, //Escolher Arquivo
+                1, //Escolher Arquivo
+                nullptr //Escolher Arquivo 
+            );
+
+        if (result == NFD_OKAY)
+        {
+            imagePath = path; //guarda o caminho:
+
+            std::cout  //Mostra no console
+                << "Imagem selecionada: "
+                << path
+                << std::endl;
+
+            SDL_Surface* image =
+                IMG_Load(path); //SDL_image tenta abrir:
+
+            if (image)
+            {
+                std::cout
+                    << "Imagem carregada com sucesso!" //Se deu certo:
+                    << std::endl;
+
+                SDL_FreeSurface(image); //Remove a imagem da RAM.
+            }
+            else
+            {
+                std::cout
+                    << "Erro: " //Se deu erro:
+                    << IMG_GetError()
+                    << std::endl;
+            }
+
+            NFD_FreePathU8(path);
+        }
+    }
+
+    ImGui::Separator();
+    ImGui::Text("Arquivo:"); //Mostra o arquivo selecionado
+    ImGui::TextWrapped("%s",imagePath.c_str()); //Mostra o arquivo selecionado
+
+    ImGui::End();
+}

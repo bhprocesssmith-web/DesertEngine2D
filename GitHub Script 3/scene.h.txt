@@ -1,0 +1,35 @@
+#pragma once
+#include "imgui.h"
+#include "assets.h"
+#include "hierarchy.h"
+
+// Cena
+inline void scenetEditor(){
+
+    ImGuiWindowFlags flags =
+        ImGuiWindowFlags_NoResize |
+        ImGuiWindowFlags_NoMove |
+        ImGuiWindowFlags_NoScrollbar;
+
+    ImGui::Begin("Scene", nullptr, flags);
+
+    ImDrawList* draw = ImGui::GetWindowDrawList();
+
+    ImVec2 pos = ImGui::GetCursorScreenPos();
+
+    for (auto& obj : sceneObjects)
+    {
+        draw->AddRectFilled(
+            ImVec2(pos.x + obj.x, pos.y + obj.y),
+            ImVec2(pos.x + obj.x + 50, pos.y + obj.y + 50),
+            IM_COL32(255, 255, 255, 255)
+        );
+    }
+
+    ImGui::Dummy(ImVec2(800, 600));
+    //ImGui::Text("Scene");
+
+
+    ImGui::End();
+}
+

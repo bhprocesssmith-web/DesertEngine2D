@@ -1,0 +1,120 @@
+#pragma once //Faz o arquivo .h ser incluído apenas uma vez pelo compilador.
+
+#define SDL_MAIN_HANDLED //Desativa o SDL_main. Permite usar o int main() normal no Visual Studio.
+
+#include <SDL.h> //SDL = cria janela e recebe eventos.
+#include <GL/glew.h> //GLEW = carrega funções modernas do OpenGL.
+
+//Bibliotecas do ImGui.
+#include "imgui.h"  //imgui.h = interface principal.
+#include "imgui_impl_sdl2.h" //imgui_impl_sdl2.h = conecta ImGui ao SDL.
+#include "imgui_impl_opengl3.h" //imgui_impl_opengl3.h = desenha ImGui usando OpenGL.
+
+#include "hierarchy.h" //Arquivo criado por você. Contém a função:
+#include "inspector.h"
+#include "assets.h"
+#include "file.h"
+#include "editorscript.h"
+
+inline void screen() //Cria uma função chamada screen. inline permite colocar a função dentro do .h.
+{
+    SDL_Init(SDL_INIT_VIDEO); //Inicializa o sistema de vídeo da SDL.
+
+    //Configurando OpenGL
+
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3); //Versão principal = OpenGL 3.
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3); //Versão secundária = OpenGL 3.3.
+    SDL_GL_SetAttribute(
+        SDL_GL_CONTEXT_PROFILE_MASK,
+        SDL_GL_CONTEXT_PROFILE_CORE  //Usa o perfil moderno do OpenGL.
+    );
+
+    SDL_Window* window = SDL_CreateWindow( //Cria a janela.
+        "Engine", //Título da janela.
+        SDL_WINDOWPOS_CENTERED, //Abre no centro da tela.
+        SDL_WINDOWPOS_CENTERED, //Abre no centro da tela.
+        900, //Largura e altura.
+        660, //Largura e altura.
+        SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN //OpenGL habilitado. Janela visível.
+    );
+
+    SDL_GLContext gl_context =
+        SDL_GL_CreateContext(window); //Cria o contexto OpenGL da janela. Sem isso o OpenGL não funciona.
+
+    //Inicializando GLEW
+    glewExperimental = GL_TRUE; //Habilita extensões modernas.
+    glewInit(); //Carrega as funções OpenGL.
+
+    //Inicializando ImGui
+        // ImGui
+    ImGui::CreateContext(); //Cria o contexto global do ImGui.
+    ImGui::StyleColorsDark(); //Tema escuro.
+
+    ImGui_ImplSDL2_InitForOpenGL(
+        window,
+        gl_context //Conecta SDL ao ImGui.
+    );
+
+    ImGui_ImplOpenGL3_Init("#version 330"); //Conecta OpenGL 3.3 ao ImGui.
+
+    //Loop principal
+    bool running = true; //Controla se o programa continua aberto.
+    SDL_Event event; //Armazena eventos do teclado, mouse e janela.
+
+    while (running) //Loop principal do programa.
+    {
+        while (SDL_PollEvent(&event)) //Pega todos os eventos.
+        {
+            ImGui_ImplSDL2_ProcessEvent(&event); //Envia os eventos para o ImGui.
+
+            if (event.type == SDL_QUIT) //Se clicar no X da janela:
+                running = false; //e o programa fecha.
+        }
+        //Novo frame ImGui
+
+        ImGui_ImplOpenGL3_NewFrame(); //Novo frame OpenGL.
+        ImGui_ImplSDL2_NewFrame(); //Novo frame SDL.
+        ImGui::NewFrame(); //Inicia desenho da interface.
+
+        //Desenha suas abas
+        hierarchywindow(); //Executa a função criada em abas.h.
+        inspectorwindow();
+        assetswindow();
+        filewindow();
+        ScriptEditor();
+
+        //Finaliza interface
+        ImGui::Render(); //Transforma a interface em comandos de desenho.
+
+        //Área de renderização
+        glViewport(0, 0, 900, 660); //Define a área onde o OpenGL desenha.
+
+        //Cor de fundo
+        glClearColor(
+            0.1f, //RGB:
+            0.1f, //RGB:
+            0.1f, //RGB:
+            1.0f //RGB:
+        ); //Cinza escuro.
+
+        //Limpa a tela
+        glClear(GL_COLOR_BUFFER_BIT); //Apaga o frame anterior.
+
+        //Desenha ImGui
+        ImGui_ImplOpenGL3_RenderDrawData(
+            ImGui::GetDrawData() //Renderiza todas as janelas do ImGui.
+        );
+
+        //Atualiza janela
+        SDL_GL_SwapWindow(window); //Troca o buffer oculto pelo visível. Isso faz o usuário enxergar o novo frame.
+    }
+
+    //Encerramento
+    ImGui_ImplOpenGL3_Shutdown(); //Fecha OpenGL do ImGui.
+    ImGui_ImplSDL2_Shutdown(); //Fecha SDL do ImGui.
+    ImGui::DestroyContext(); //Destrói o contexto do ImGui.
+
+    SDL_GL_DeleteContext(gl_context); //Remove o contexto OpenGL.
+    SDL_DestroyWindow(window); //Fecha a janela.
+    SDL_Quit(); //Encerra a SDL.
+}
