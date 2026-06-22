@@ -1,0 +1,40 @@
+#pragma once
+
+#include "imgui.h"
+#include <iostream>
+#include "editorscript.h"
+
+
+inline void assetswindow() //Cria uma função que desenha a janela Assets do ImGui.
+{
+    ImGuiWindowFlags flags =
+        ImGuiWindowFlags_NoResize |
+        ImGuiWindowFlags_NoMove |
+        ImGuiWindowFlags_NoCollapse;
+    //ImGuiWindowFlags_NoInputs;
+    ImGui::Begin("Assets", nullptr, flags);
+
+    if (ImGui::Button("script")) {
+        openeditor.abrirScriptEditor = true;
+    }
+    //Cria o botão
+    if (ImGui::Button("Load")) {
+        nfdu8char_t* path = nullptr; //Ponteiro para armazenar o caminho
+
+        nfdresult_t result = //Abre o seletor de pasta
+            NFD_PickFolderU8(
+                &path, //Endereço da variável.
+                "C:\\Downloads" //Como é nullptr, o Windows escolhe uma pasta padrão. para abrir direto no disco C:.
+            );
+
+        if (result == NFD_OKAY) //Usuário clicou em OK
+        {
+            printf("%s\n", path); //Mostra o caminho
+
+            NFD_FreePathU8(path); //Libera memória
+        }
+    }
+
+
+    ImGui::End();
+}
