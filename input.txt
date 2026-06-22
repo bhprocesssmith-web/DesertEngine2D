@@ -1,0 +1,31 @@
+SDL_Rect rect = {300,200,100,100};
+
+bool running = true;
+
+while (running) //Loop principal do programa.
+ {
+     while (SDL_PollEvent(&event)) //Pega todos os eventos.
+     {
+         ImGui_ImplSDL2_ProcessEvent(&event); //Envia os eventos para o ImGui.
+
+         if (event.type == SDL_QUIT) //Se clicar no X da janela:
+             running = false; //e o programa fecha.
+     }
+
+	 if (event.type == SDL_KEYDOWN){
+		if (event.key.keysym == SDLK_SPACE){
+			rect.w += 20;
+			rect.h += 20;
+		}
+	}
+}
+
+
+//se quiser escalonar separadamente
+// if (event.key.keysym == SDLK_X){
+	rect.w +=20;
+}
+
+   if (event.key.keysym == SDLK_Y){
+	rect.h +=20;
+}

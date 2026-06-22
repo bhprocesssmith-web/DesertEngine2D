@@ -1,0 +1,11 @@
+#pragma once
+#include "imgui.h"
+
+struct FileWindowState
+{
+    bool saveandloadEditor = false;
+};
+
+extern FileWindowState filearquivo;
+
+void SaveEditor();

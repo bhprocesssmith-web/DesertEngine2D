@@ -1,0 +1,23 @@
+#include "saveandload.h"
+
+FileWindowState filearquivo;
+
+void SaveEditor()
+{
+    
+
+    if (filearquivo.saveandloadEditor)
+    {
+        ImGuiWindowFlags flags =
+            ImGuiWindowFlags_NoCollapse |
+            ImGuiWindowFlags_NoResize |
+            ImGuiWindowFlags_NoMove;
+
+        ImGui::Begin("Save Load", nullptr, flags);
+
+        ImGui::Button("Save");
+        ImGui::Button("Load");
+
+        ImGui::End();
+    }
+}

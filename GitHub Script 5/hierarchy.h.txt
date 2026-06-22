@@ -1,0 +1,59 @@
+#pragma once
+#include "imgui.h"
+#include <nfd.h>
+#include <string>
+#include <vector>
+
+static int selectedObject = -1;
+
+struct GameObject
+{
+    std::string name;
+    float x;
+    float y;
+
+    float scaleX = 50;
+    float scaleY = 50;
+};
+std::vector<GameObject> sceneObjects;
+
+inline void hierarchywindow()
+{
+    // Tecla W cria objeto
+    if (ImGui::IsKeyPressed(ImGuiKey_W))
+    {
+        //GameObject obj;
+        //obj.name = "Objeto " + std::to_string(sceneObjects.size());
+        GameObject obj;
+        obj.name = "Objeto " + std::to_string(sceneObjects.size());
+        obj.x = 100;
+        obj.y = 100;
+        obj.scaleX = 50;
+        obj.scaleY = 50;
+
+        sceneObjects.push_back(obj);
+    }
+    ImGuiWindowFlags flags =
+        ImGuiWindowFlags_NoResize |
+        ImGuiWindowFlags_NoMove |
+        ImGuiWindowFlags_NoCollapse;
+    //ImGuiWindowFlags_NoInputs;
+    ImGui::Begin("hierarchy", nullptr, flags);
+
+    
+
+    for (int i = 0; i < sceneObjects.size(); i++)
+    {
+        bool selected = (selectedObject == i);
+
+        if (ImGui::Selectable(
+            sceneObjects[i].name.c_str(),
+            selected))
+        {
+            selectedObject = i;
+        }
+    }
+    ImGui::End();
+
+    
+}
