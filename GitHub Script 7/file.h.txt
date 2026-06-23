@@ -1,0 +1,34 @@
+#pragma once
+#include "imgui.h"
+#include "saveandload.h"
+
+inline void filewindow()
+{
+    ImGuiWindowFlags flags =
+        ImGuiWindowFlags_NoResize |
+        ImGuiWindowFlags_NoMove |
+        ImGuiWindowFlags_NoCollapse |
+        ImGuiWindowFlags_NoScrollbar;
+        //ImGuiWindowFlags_NoInputs;
+    ImGui::Begin("File", nullptr, flags);
+
+    ImGui::SameLine();
+    if (ImGui::Button("file")) {
+        filearquivo.saveandloadEditor = !filearquivo.saveandloadEditor;
+    }
+    ImGui::SameLine();
+    ImGui::Button("window");
+    ImGui::SameLine();
+    ImGui::Button("help");
+
+    //ImGui::Begin("File Save");
+    //ImGui::Button("Save");
+    //ImGui::Button("Load");
+    //ImGui::Text("Editor");
+    //ImGui::SameLine();
+    
+        
+    
+
+    ImGui::End();
+}

@@ -1,0 +1,87 @@
+#pragma once
+#include "imgui.h"
+#include "assets.h"
+
+struct visualvariavel {
+    bool abrirVisualEditor = false;
+};
+inline visualvariavel openeditorvisual;
+
+struct RectObject
+{
+    //largura
+    float x = 200;
+    float y = 200;
+    float largura = 100;
+    float altura = 50;
+};
+inline RectObject rect;
+
+struct RectObjectinput
+{
+    //largura
+    float x = 400;
+    float y = 200;
+    float largura = 100;
+    float altura = 50;
+};
+inline RectObjectinput rectinput;
+
+inline bool addmove = false;
+inline bool addinput = false;
+
+
+
+inline void VisualEditor()
+{
+
+    ImGuiWindowFlags flags =
+        ImGuiWindowFlags_NoCollapse |
+        ImGuiWindowFlags_NoResize |
+        ImGuiWindowFlags_NoMove;
+
+    if (openeditorvisual.abrirVisualEditor)
+    {
+        ImGui::Begin("Visual Editor", nullptr, flags);
+
+        if (ImGui::Button("Move"))
+        {
+            addmove = true;
+        }
+
+        if (ImGui::Button("Input"))
+        {
+            addinput = true;
+        }
+
+        // Desenha sempre enquanto addrect for true
+        if (addmove)
+        {
+
+            ImDrawList* draw = ImGui::GetWindowDrawList();
+            ImVec2 winPos = ImGui::GetWindowPos();
+
+            draw->AddRectFilled(
+                ImVec2(rect.x, rect.y),
+                ImVec2(rect.x + rect.largura, rect.y + rect.altura),
+                IM_COL32(0, 0, 255, 255)
+
+            );
+        }
+        if (addinput)
+        {
+
+            ImDrawList* draw = ImGui::GetWindowDrawList();
+            ImVec2 winPos = ImGui::GetWindowPos();
+
+            draw->AddRectFilled(
+                ImVec2(rectinput.x, rectinput.y),
+                ImVec2(rectinput.x + rectinput.largura, rectinput.y + rectinput.altura),
+                IM_COL32(0, 255, 0, 255)
+
+            );
+        }
+
+        ImGui::End();
+    }
+} 

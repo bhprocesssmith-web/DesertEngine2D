@@ -1,0 +1,151 @@
+#pragma once
+
+#include "imgui.h"
+#include "editorscript.h"
+#include "hierarchy.h"
+#include "visualscript.h"
+
+
+//struct Scale
+//{
+    //int x = 1;
+    //int y = 1;
+//};
+//static Scale scale;
+
+inline void inspectorwindow()
+{
+    ImGuiWindowFlags flags =
+        ImGuiWindowFlags_NoResize |
+        ImGuiWindowFlags_NoMove |
+        ImGuiWindowFlags_NoCollapse;
+        //ImGuiWindowFlags_NoInputs;
+        ImGui::Begin("Inspector", nullptr, flags);
+            //translation
+            /*static float vx = 5.0f;
+            static float vy = 5.0f;
+            static float vz = 5.0f;
+            ImGui::Text("Translation");
+            ImGui::Dummy(ImVec2(0, 20));
+            ImGui::SetNextItemWidth(35);
+            ImGui::SameLine();
+            ImGui::SliderFloat(
+                "tX",&vx,0.0f,100.0f
+            );
+            ImGui::SetNextItemWidth(35);
+            ImGui::SameLine();
+            ImGui::SliderFloat(
+                "tY", &vy, 0.0f, 100.0f
+            );
+            ImGui::SetNextItemWidth(35);
+            ImGui::SameLine();
+            ImGui::SliderFloat(
+                "tZ", &vz, 0.0f, 100.0f
+            );
+
+            //rotation
+            static float rx = 5.0f;
+            static float ry = 5.0f;
+            static float rz = 5.0f;
+            ImGui::Text("Ratation");
+            ImGui::Dummy(ImVec2(0, 20));
+            ImGui::SetNextItemWidth(35);
+            ImGui::SameLine();
+            ImGui::SliderFloat(
+                "rX", &rx, 0.0f, 100.0f
+            );
+            ImGui::SetNextItemWidth(35);
+            ImGui::SameLine();
+            ImGui::SliderFloat(
+                "rY", &ry, 0.0f, 100.0f
+            );
+            ImGui::SetNextItemWidth(35);
+            ImGui::SameLine();
+            ImGui::SliderFloat(
+                "rZ", &rz, 0.0f, 100.0f
+            );
+
+            //scale
+            static float sx = 5.0f;
+            static float sy = 5.0f;
+            static float sz = 5.0f;
+            ImGui::Text("Scale");
+            ImGui::Dummy(ImVec2(0, 20));
+            ImGui::SetNextItemWidth(35);
+            ImGui::SameLine();
+            ImGui::SliderFloat(
+                "sX", &sx, 0.0f, 100.0f
+            );
+            ImGui::SetNextItemWidth(35);
+            ImGui::SameLine();
+            ImGui::SliderFloat(
+                "sY", &sy, 0.0f, 100.0f
+            );
+            ImGui::SetNextItemWidth(35);
+            ImGui::SameLine();
+            ImGui::SliderFloat(
+                "sZ", &sz, 0.0f, 100.0f
+            );*/
+            
+            ImGui::Text("Scale");
+            if (selectedObject != -1)
+            {
+                ImGui::Text("Scale X: %.0f",
+                    sceneObjects[selectedObject].scaleX);
+                ImGui::SameLine();
+
+                if (ImGui::Button("+X"))
+                {
+                    sceneObjects[selectedObject].scaleX += 10;
+                }
+                //ImGui::SameLine();
+                ImGui::Text("Scale Y: %.0f",
+                    sceneObjects[selectedObject].scaleY);
+                ImGui::SameLine();
+                if (ImGui::Button("+Y"))
+                {
+                    sceneObjects[selectedObject].scaleY += 10;
+                }
+            }
+            else
+            {
+                ImGui::Text("Nenhum objeto selecionado");
+            }
+
+            //////
+            if (selectedObject != -1)
+            {
+                ImGui::Text("Scale X: %.0f",
+                    sceneObjects[selectedObject].scaleX);
+                ImGui::SameLine();
+
+                if (ImGui::Button("-X"))
+                {
+                    sceneObjects[selectedObject].scaleX -= 10;
+                }
+                //ImGui::SameLine();
+                ImGui::Text("Scale Y: %.0f",
+                    sceneObjects[selectedObject].scaleY);
+                ImGui::SameLine();
+                if (ImGui::Button("-Y"))
+                {
+                    sceneObjects[selectedObject].scaleY -= 10;
+                }
+            }
+            else
+            {
+                ImGui::Text("Nenhum objeto selecionado");
+            }
+            
+            
+            ImGui::Text("Editor");
+            //ImGui::SameLine();
+            if (ImGui::Button("script")) {
+                openeditor.abrirScriptEditor = !openeditor.abrirScriptEditor;
+            }
+            if (ImGui::Button("Visual")) {
+                openeditorvisual.abrirVisualEditor = !openeditorvisual.abrirVisualEditor;
+            }
+
+    ImGui::End();
+}

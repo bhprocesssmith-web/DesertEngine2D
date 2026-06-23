@@ -1,0 +1,86 @@
+#pragma once
+#include "imgui.h"
+#include "assets.h"
+#include "hierarchy.h"
+
+// Cena
+static int draggingObject = -1;
+
+inline void scenetEditor() {
+
+    ImGuiWindowFlags flags =
+        ImGuiWindowFlags_NoResize |
+        ImGuiWindowFlags_NoMove |
+        ImGuiWindowFlags_NoScrollbar;
+
+    ImGui::Begin("Scene", nullptr, flags);
+
+    ImDrawList* draw = ImGui::GetWindowDrawList();
+
+    ImVec2 pos = ImGui::GetCursorScreenPos();
+
+
+
+    for (int i = 0; i < sceneObjects.size(); i++)
+    {
+        auto& obj = sceneObjects[i];
+
+        ImVec2 p1(pos.x + obj.x, pos.y + obj.y);
+        ImVec2 p2(pos.x + obj.x + obj.scaleX,
+            pos.y + obj.y + obj.scaleY);
+
+        draw->AddRectFilled(
+            p1,
+            p2,
+            IM_COL32(255, 255, 255, 255)
+        );
+
+        // Contorno verde do objeto selecionado
+        if (selectedObject == i)
+        {
+            draw->AddRect(
+                p1,
+                p2,
+                IM_COL32(0, 255, 0, 255), // verde
+                0.0f,                      // arredondamento
+                0,                         // flags
+                3.0f                       // espessura
+            );
+        }
+
+        ImVec2 mouse = ImGui::GetIO().MousePos;
+
+        bool hover =
+            mouse.x >= p1.x && mouse.x <= p2.x &&
+            mouse.y >= p1.y && mouse.y <= p2.y;
+
+        if (hover && ImGui::IsMouseClicked(ImGuiMouseButton_Left))
+        {
+            draggingObject = i;
+            selectedObject = i; // seleciona na hierarquia e na cena
+        }
+    }
+        if (draggingObject != -1)
+        {
+            auto& obj = sceneObjects[draggingObject];
+
+            if (ImGui::IsMouseDown(ImGuiMouseButton_Left))
+            {
+                ImVec2 mouse = ImGui::GetIO().MousePos;
+
+                obj.x = mouse.x - pos.x - 25;
+                obj.y = mouse.y - pos.y - 25;
+            }
+            else
+            {
+                draggingObject = -1;
+            }
+        }
+
+    ImGui::Dummy(ImVec2(800, 600));
+    //ImGui::Text("Scene");
+
+
+    ImGui::End();
+}
+
